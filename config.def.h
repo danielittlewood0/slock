@@ -1,6 +1,8 @@
 /* user and group to drop privileges to */
 static const char *user  = "nobody";
 static const char *group = "nogroup";
+/* allow control key to trigger fail on clear */
+static const int controlkeyclear = 0;
 
 static const char *colorname[NUMCOLS] = {
 	[INIT] =   "black",     /* after initialization */
@@ -9,4 +11,4 @@ static const char *colorname[NUMCOLS] = {
 };
 
 /* treat a cleared input like a wrong password (color) */
-static const int failonclear = 1;
+static const int failonclear = 0;
