@@ -32,6 +32,7 @@ enum {
 	INIT,
 	INPUT,
 	FAILED,
+	FLASH,
 	NUMCOLS
 };
 
@@ -269,6 +270,7 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 				break;
 			case XK_Escape:
 				explicit_bzero(&passwd, sizeof(passwd));
+        failure = 0;
 				len = 0;
 				break;
 			case XK_BackSpace:
@@ -285,6 +287,17 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 				break;
 			}
 			color = len ? INPUT : ((failure || failonclear) ? FAILED : INIT);
+      if (color == INPUT) {
+				for (screen = 0; screen < nscreens; screen++) {
+					XSetWindowBackground(dpy,
+					                     locks[screen]->win,
+					                     locks[screen]->colors[FLASH]);
+					XClearWindow(dpy, locks[screen]->win);
+					writemessage(dpy, locks[screen]->win, screen);
+				}
+        oldc = FLASH;
+        usleep(50000);
+      }
 			if (running && oldc != color) {
 				for (screen = 0; screen < nscreens; screen++) {
 					XSetWindowBackground(dpy,

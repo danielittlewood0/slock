@@ -7,6 +7,7 @@ static const int controlkeyclear = 0;
 static const char *colorname[NUMCOLS] = {
 	[INIT] =   "black",     /* after initialization */
 	[INPUT] =  "#005577",   /* during input */
+	[FLASH]  = "#003344",   /* between inputs */
 	[FAILED] = "#CC3333",   /* wrong password */
 };
 
